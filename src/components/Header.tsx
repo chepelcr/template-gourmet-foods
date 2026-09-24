@@ -26,7 +26,7 @@ export default function Header() {
               )}
               <div>
                 <h1 className="text-2xl font-serif font-bold text-gourmet-gradient">
-                  {organization?.name || 'Gourmet Foods'}
+                  {organization?.name}
                 </h1>
                 <p className="text-xs text-stone-500 font-sans">Premium Specialty Foods</p>
               </div>
