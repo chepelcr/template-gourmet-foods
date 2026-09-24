@@ -3,8 +3,24 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import IngredientBadge from '../components/IngredientBadge';
 import { ShoppingCart, Heart, Star, Award, Leaf, Package } from 'lucide-react';
+import { useCartStore } from '@/store/cart';
+import { useRouteProduct } from '@/hooks/useRouteProduct';
 
 export default function ProductDetailPage() {
+  // Add the store's real product (the one this route points at) to the cart.
+  const routeProduct = useRouteProduct();
+  const { addToCart, isOpen, toggleCart, setShowCheckout } = useCartStore();
+  const handleAddToCart = () => {
+    if (!routeProduct) return;
+    addToCart({
+      id: routeProduct.id,
+      name: routeProduct.name,
+      price: routeProduct.price,
+      imageUrl: routeProduct.imageUrl,
+      quantity: 1,
+    });
+    if (!isOpen) toggleCart();
+  };
   const [, params] = useRoute('/products/:id');
 
   return (
@@ -94,7 +110,7 @@ export default function ProductDetailPage() {
                     <span className="px-6 py-2 border-x border-stone-300">1</span>
                     <button className="px-4 py-2 hover:bg-stone-100 transition-colors">+</button>
                   </div>
-                  <button className="flex-1 flex items-center justify-center gap-2 bg-gourmet-red hover:bg-gourmet-gold text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <button className="flex-1 flex items-center justify-center gap-2 bg-gourmet-red hover:bg-gourmet-gold text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl" onClick={handleAddToCart} disabled={!routeProduct}>
                     <ShoppingCart className="w-5 h-5" />
                     Add to Cart
                   </button>
@@ -103,7 +119,7 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
 
-                <button className="w-full bg-stone-900 hover:bg-stone-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                <button className="w-full bg-stone-900 hover:bg-stone-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors" onClick={() => { handleAddToCart(); setShowCheckout(true); }} disabled={!routeProduct}>
                   Buy Now
                 </button>
               </div>
