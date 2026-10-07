@@ -1,6 +1,6 @@
 # Gourmet Foods Template
 
-Premium gourmet food and specialty foods e-commerce template for the JMarkets platform.
+Premium gourmet food and specialty foods e-commerce template for the Tsuru platform.
 
 ## Theme Specifications
 
@@ -140,7 +140,7 @@ templates/gourmet-foods/
 
 ## Deployment
 
-This template is designed to be deployed as part of the JMarkets multi-template system:
+This template is designed to be deployed as part of the Tsuru multi-template system:
 
 1. Build is output to `dist/templates/gourmet-foods`
 2. Deployment script uploads to S3
