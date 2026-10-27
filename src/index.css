@@ -1,238 +1,311 @@
+@import './core/core.css';
+@import './theme/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* ===== Gourmet Foods Color Palette ===== */
-    /* Primary: Rich Red - Appetite stimulation, culinary passion */
-    --primary: 0 84% 60%;           /* #dc2626 red-600 */
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary: Deep Green - Fresh, organic, farm-to-table */
-    --secondary: 145 80% 25%;       /* #166534 green-800 */
-    --secondary-foreground: 0 0% 100%;
-
-    /* Accent: Amber Gold - Premium gourmet appeal */
-    --accent: 32 95% 44%;           /* #d97706 amber-600 */
-    --accent-foreground: 0 0% 100%;
-
-    /* Neutral Palette - Clean, food-safe */
-    --background: 0 0% 100%;        /* #ffffff white */
-    --foreground: 24 10% 10%;       /* #1c1917 stone-900 */
-
-    --card: 0 0% 100%;              /* #ffffff white */
-    --card-foreground: 24 10% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 24 10% 10%;
-
-    --muted: 60 5% 96%;             /* #f5f5f4 stone-100 */
-    --muted-foreground: 25 5% 45%;  /* #78716c stone-500 */
-
-    --border: 20 6% 90%;            /* #e7e5e4 stone-200 */
-    --input: 60 5% 96%;             /* #f5f5f4 stone-100 */
-    --ring: 0 84% 60%;              /* #dc2626 matches primary */
-
-    --destructive: 0 84% 60%;       /* #dc2626 red-600 */
-    --destructive-foreground: 0 0% 100%;
-
-    /* Gourmet-specific colors */
-    --gourmet-red: 0 84% 60%;       /* #dc2626 */
-    --gourmet-green: 145 80% 25%;   /* #166534 */
-    --gourmet-gold: 32 95% 44%;     /* #d97706 */
-    --gourmet-cream: 55 92% 95%;    /* #fefce8 yellow-50 */
-
-    /* ===== Typography Variables ===== */
-    /* Fonts */
-    --font-sans: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-serif: "Playfair Display", Georgia, serif;
-    --font-display: "Playfair Display", Georgia, serif;
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-
-    /* Font Sizes */
-    --text-xs: 0.75rem;      /* 12px */
-    --text-sm: 0.875rem;     /* 14px */
-    --text-base: 1rem;       /* 16px */
-    --text-lg: 1.125rem;     /* 18px */
-    --text-xl: 1.25rem;      /* 20px */
-    --text-2xl: 1.5rem;      /* 24px */
-    --text-3xl: 1.875rem;    /* 30px */
-    --text-4xl: 2.25rem;     /* 36px */
-    --text-5xl: 3rem;        /* 48px */
-    --text-6xl: 3.75rem;     /* 60px */
-
-    /* Font Weights */
-    --font-light: 300;
-    --font-normal: 400;
-    --font-medium: 500;
-    --font-semibold: 600;
-    --font-bold: 700;
-
-    /* Line Heights */
-    --leading-tight: 1.25;
-    --leading-normal: 1.5;
-    --leading-relaxed: 1.75;
-
-    /* Border Radius */
-    --radius: 0.5rem;        /* 8px - Subtle elegance */
-  }
-
-  /* Dark mode (not recommended for food, but included for flexibility) */
-  .dark {
-    --background: 24 10% 10%;
-    --foreground: 60 5% 96%;
-
-    --card: 24 10% 12%;
-    --card-foreground: 60 5% 96%;
-
-    --popover: 24 10% 12%;
-    --popover-foreground: 60 5% 96%;
-
-    --primary: 0 84% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 145 80% 35%;
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 32 95% 54%;
-    --accent-foreground: 0 0% 100%;
-
-    --muted: 25 5% 20%;
-    --muted-foreground: 25 5% 60%;
-
-    --border: 25 5% 25%;
-    --input: 25 5% 20%;
-    --ring: 0 84% 60%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
+  html {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-text);
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "kern" 1, "liga" 1;
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Headings use Playfair Display for elegant, gourmet feel */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-semibold;
-    letter-spacing: -0.02em;
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-wrap: balance;
   }
 
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
   }
 
-  h2 {
-    @apply text-3xl md:text-4xl;
+  .on-deep :focus-visible {
+    outline-color: var(--focus-on-deep);
   }
 
-  h3 {
-    @apply text-2xl md:text-3xl;
+  ::selection {
+    background: var(--gf-saffron);
+    color: var(--gf-aubergine);
   }
 
-  h4 {
-    @apply text-xl md:text-2xl;
-  }
-
-  /* Body text uses Source Sans Pro for readability */
-  p {
-    @apply text-base leading-relaxed;
-  }
-
-  /* Links */
-  a {
-    @apply transition-colors duration-200;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 
 @layer components {
-  /* Gourmet-specific utility classes */
-  .gourmet-gradient {
-    background: linear-gradient(135deg, hsl(var(--gourmet-red)) 0%, hsl(var(--gourmet-gold)) 100%);
+  .page {
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
   }
 
-  .fresh-gradient {
-    background: linear-gradient(135deg, hsl(var(--gourmet-green)) 0%, hsl(var(--gourmet-gold)) 100%);
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--tap);
+    padding: 0.625rem 1.375rem;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform var(--dur-exit) var(--ease-out), background-color var(--dur-exit) ease, box-shadow var(--dur-exit) ease;
   }
 
-  .premium-shadow {
-    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1),
-                0 2px 4px -1px rgba(220, 38, 38, 0.06);
+  .btn:active:not(:disabled) {
+    transform: scale(0.97);
   }
 
-  .fresh-shadow {
-    box-shadow: 0 4px 6px -1px rgba(22, 101, 52, 0.1),
-                0 2px 4px -1px rgba(22, 101, 52, 0.06);
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
   }
 
-  /* Recipe card styling */
-  .recipe-card {
-    @apply bg-white rounded-lg overflow-hidden premium-shadow transition-transform duration-300 hover:scale-[1.02];
+  .btn-accent {
+    background: var(--accent);
+    color: var(--accent-ink);
   }
 
-  /* Ingredient badge */
-  .ingredient-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  .btn-accent:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
-  .ingredient-badge-organic {
-    @apply bg-green-100 text-green-800 border border-green-200;
+  .btn-strong {
+    background: var(--gf-aubergine);
+    color: var(--gf-label);
   }
 
-  .ingredient-badge-premium {
-    @apply bg-amber-100 text-amber-800 border border-amber-200;
+  .btn-strong:hover:not(:disabled) {
+    background: var(--gf-aubergine-lift);
   }
 
-  .ingredient-badge-fresh {
-    @apply bg-red-50 text-red-700 border border-red-200;
+  .btn-quiet {
+    background: var(--surface-raised);
+    color: var(--heading);
+    box-shadow: inset 0 0 0 2px var(--rule);
   }
 
-  /* Gold accent for premium items */
-  .gold-accent {
-    position: relative;
+  .btn-quiet:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--heading);
   }
 
-  .gold-accent::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, hsl(var(--gourmet-gold)) 0%, hsl(var(--accent)) 100%);
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
+  .btn-on-deep {
+    background: transparent;
+    color: var(--ink-on-deep);
+    box-shadow: inset 0 0 0 2px var(--rule-on-deep);
+  }
+
+  .btn-on-deep:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--ink-on-deep);
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    min-width: var(--tap);
+    min-height: var(--tap);
+    border-radius: var(--radius-pill);
+  }
+
+  .gloss {
+    display: none;
+  }
+
+  .frame {
+    border-radius: var(--radius-frame);
+    overflow: hidden;
+  }
+
+  .frame-sm {
+    border-radius: var(--radius-frame-sm);
+    overflow: hidden;
+  }
+
+  .field {
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.875rem;
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--rule);
+    font: inherit;
+  }
+
+  .field[aria-invalid='true'] {
+    box-shadow: inset 0 0 0 2px var(--danger);
+  }
+
+  .skeleton {
+    background: linear-gradient(100deg, var(--surface-quiet) 30%, var(--gf-label) 50%, var(--surface-quiet) 70%);
+    background-size: 300% 100%;
+    animation: skeleton-sweep 1.5s ease-in-out infinite;
+    border-radius: 0.75rem;
+  }
+
+  .skeleton-deep {
+    background: var(--gf-aubergine-lift);
+    border-radius: 0.75rem;
+  }
+
+  .price-tag {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--heading);
+  }
+
+  /* A preserve label: warm white, an oval-cornered card with a double rule. */
+  .jar-label {
+    border-radius: 50% / 34%;
+    background: var(--gf-label);
+    box-shadow: inset 0 0 0 4px var(--gf-label), inset 0 0 0 5.5px color-mix(in srgb, var(--gf-aubergine) 45%, transparent), var(--shadow-soft);
+  }
+
+  .menu-card {
+    border-radius: var(--radius-frame-sm);
+    background: var(--gf-label);
+    box-shadow: inset 0 0 0 6px var(--gf-label), inset 0 0 0 7.5px color-mix(in srgb, var(--gf-aubergine) 40%, transparent), inset 0 0 0 10px var(--gf-label), inset 0 0 0 11px color-mix(in srgb, var(--gf-aubergine) 25%, transparent), var(--shadow-soft);
+  }
+
+  /* The dotted leader between a dish and its price. */
+  .leader {
+    flex: 1 1 1.5rem;
+    min-width: 1.5rem;
+    border-bottom: 2px dotted color-mix(in srgb, var(--gf-aubergine) 35%, transparent);
+    transform: translateY(-0.35em);
   }
 }
 
-@layer utilities {
-  /* Text gradient utilities */
-  .text-gourmet-gradient {
-    @apply bg-gradient-to-r from-red-600 to-amber-600 bg-clip-text text-transparent;
-  }
+/* Shelves: every item stands on its stretch of board, so a row reads as one shelf. */
+.shelf-grid {
+  display: grid;
+  column-gap: var(--shelf-gap);
+  row-gap: 3.25rem;
+}
 
-  .text-fresh-gradient {
-    @apply bg-gradient-to-r from-green-800 to-green-600 bg-clip-text text-transparent;
-  }
+.shelf-grid > li {
+  position: relative;
+}
 
-  /* Animation utilities */
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
-  }
+.shelf-grid > li::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--shelf-gap) / -2);
+  right: calc(var(--shelf-gap) / -2);
+  bottom: -1.25rem;
+  height: 0.625rem;
+  border-radius: 2px;
+  background: var(--shelf, var(--gf-aubergine));
+  box-shadow: 0 6px 10px -6px rgb(0 0 0 / 0.5);
+}
 
-  .animate-slide-up {
-    animation: slide-up 0.8s ease-out;
+.on-deep .shelf-grid > li::after {
+  background: var(--gf-shelf);
+}
+
+/* The hero label's double border draws once. */
+.label-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: label-draw 1.6s var(--ease-out) 0.2s backwards;
+}
+
+/* Drawn is the resting state, so the border shows even where animation never runs. */
+@keyframes label-draw {
+  from {
+    stroke-dashoffset: 1;
   }
+}
+
+/* The seal stamps when its item is added. */
+.seal-stamp {
+  animation: seal-stamp 520ms var(--ease-out);
+}
+
+@keyframes seal-stamp {
+  0% {
+    transform: rotate(-8deg) scale(1);
+  }
+  35% {
+    transform: rotate(4deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+@keyframes skeleton-sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes sheet-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay[data-state='open'] {
+  animation: fade-in var(--dur-enter) ease;
+}
+
+.sheet[data-state='open'] {
+  animation: sheet-in-up var(--dur-enter) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .sheet[data-state='open'] {
+    animation-name: sheet-in-right;
+  }
+}
+
+.dialog-pop[data-state='open'] {
+  animation: fade-in var(--dur-enter) var(--ease-out);
 }

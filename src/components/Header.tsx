@@ -1,115 +1,123 @@
-import { Link } from 'wouter';
-import { ShoppingCart, Search, Menu, ChefHat } from 'lucide-react';
-import { useCartStore } from '@/store/cart';
-import { useTheme } from '@/hooks/useContent';
-import { useSubdomainContext } from '@/contexts/SubdomainContext';
+import * as Dialog from '@radix-ui/react-dialog';
+import { Menu, ShoppingBasket, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { useCart, useCartTotals, useIsDemo, useStore } from '@/core';
+import { useI18n } from '@/i18n';
+import { BASKET_EVENT } from './AddToCart';
 
-export default function Header() {
-  const { items, toggleCart } = useCartStore();
-  const { organization } = useSubdomainContext();
-  const { data: theme } = useTheme();
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+export const NAV = [
+  { href: '/', key: 'nav.home' },
+  { href: '/products', key: 'nav.catalog' },
+  { href: '/about', key: 'nav.about' },
+  { href: '/contact', key: 'nav.contact' },
+] as const;
+
+export function useIsActive() {
+  const [location] = useLocation();
+  return (href: string) => (href === '/' ? location === '/' : location === href || location.startsWith(`${href}/`));
+}
+
+/** Without a logo the store gets a saffron seal with its initial. */
+function StoreMark() {
+  const { organization, theme } = useStore();
+  const logo = theme?.logoUrl ?? organization?.logoUrl ?? null;
+  if (!organization) return <span aria-hidden="true" className="skeleton-deep block h-8 w-40" />;
+  return (
+    <span className="flex items-center gap-3">
+      {logo ? (
+        <img src={logo} alt="" className="h-10 w-10 rounded-full object-cover" />
+      ) : (
+        <span aria-hidden="true" className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--accent)] font-display text-xl font-bold text-[color:var(--accent-ink)] shadow-[0_0_0_3px_var(--gf-aubergine),0_0_0_4.5px_var(--accent)]">
+          {organization.name.trim().slice(0, 1)}
+        </span>
+      )}
+      <span className="font-display text-xl font-bold leading-none sm:text-2xl">{organization.name}</span>
+    </span>
+  );
+}
+
+export function Header() {
+  const { t, plural } = useI18n();
+  const isDemo = useIsDemo();
+  const { count } = useCartTotals();
+  const openCart = useCart((s) => s.open);
+  const isActive = useIsActive();
+  const [location] = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [adds, setAdds] = useState(0);
+
+  useEffect(() => {
+    const onAdded = () => setAdds((n) => n + 1);
+    window.addEventListener(BASKET_EVENT, onAdded);
+    return () => window.removeEventListener(BASKET_EVENT, onAdded);
+  }, []);
+
+  useEffect(() => setMenuOpen(false), [location]);
 
   return (
-    <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4">
-        {/* Top Bar */}
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <Link href="/">
-            <a className="flex items-center gap-2 group">
-              
-              {theme?.logoUrl ? (
-                <img src={theme.logoUrl} alt="Logo" className="w-8 h-8" />
-              ) : (
-                <ChefHat className="w-8 h-8 text-gourmet-red group-hover:text-gourmet-gold transition-colors" />
-              )}
-              <div>
-                <h1 className="text-2xl font-serif font-bold text-gourmet-gradient">
-                  {organization?.name}
-                </h1>
-                <p className="text-xs text-stone-500 font-sans">Premium Specialty Foods</p>
-              </div>
-            </a>
-          </Link>
+    <header className="on-deep relative z-30 bg-surface-deep text-ink-on-deep">
+      {isDemo && <p className="bg-surface-deep-raised px-4 py-1.5 text-center text-sm text-ink-on-deep-soft">{t('demo.notice')}</p>}
+      <div className="page flex h-16 items-center gap-3 sm:h-20">
+        <Link href="/" className="rounded-full py-1 pr-2">
+          <StoreMark />
+        </Link>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-xl mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
-              <input
-                type="text"
-                placeholder="Search for gourmet foods, ingredients..."
-                className="w-full pl-11 pr-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gourmet-red focus:border-transparent font-sans text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <button className="md:hidden p-2 hover:bg-stone-100 rounded-lg transition-colors">
-              <Search className="w-5 h-5 text-stone-600" />
-            </button>
-
-            <button
-              onClick={toggleCart}
-              className="relative p-2 hover:bg-stone-100 rounded-lg transition-colors"
-            >
-              <ShoppingCart className="w-6 h-6 text-stone-700" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gourmet-red text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {itemCount}
-                </span>
-              )}
-            </button>
-
-            <button className="md:hidden p-2 hover:bg-stone-100 rounded-lg transition-colors">
-              <Menu className="w-6 h-6 text-stone-600" />
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8 py-3 border-t border-stone-100">
-          <Link href="/">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              Inicio
-            </a>
-          </Link>
-          <Link href="/products">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              All Productos
-            </a>
-          </Link>
-          <Link href="/deals">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              Ofertas
-            </a>
-          </Link>
-          <Link href="/services">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              Servicios
-            </a>
-          </Link>
-          <Link href="/programs">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              Programas
-            </a>
-          </Link>
-          <Link href="/about">
-            <a className="text-sm font-medium text-stone-700 hover:text-gourmet-red transition-colors font-sans" onClick={() => window.scrollTo(0, 0)}>
-              Acerca de
-            </a>
-          </Link>
-          <a
-            href={import.meta.env.VITE_LANDING_PAGE_URL || 'https://tsuru.jcampos.dev'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-gourmet-red hover:text-gourmet-gold transition-colors font-sans"
-          >
-            Crea Tu Tienda
-          </a>
+        <nav aria-label={t('nav.primary')} className="ml-auto hidden md:block">
+          <ul className="flex items-center gap-1">
+            {NAV.map(({ href, key }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={isActive(href) ? 'page' : undefined}
+                  className="relative flex min-h-tap items-center px-3.5 font-bold text-ink-on-deep-soft transition-colors after:absolute after:inset-x-3.5 after:bottom-1.5 after:h-[3px] after:rounded-full hover:text-ink-on-deep aria-[current=page]:text-ink-on-deep aria-[current=page]:after:bg-[color:var(--accent)]"
+                >
+                  {t(key)}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
+
+        <button type="button" onClick={openCart} className="btn btn-accent ml-auto gap-2.5 pl-4 pr-2 md:ml-4">
+          <ShoppingBasket key={adds} aria-hidden="true" className={`h-5 w-5 ${adds ? 'seal-stamp' : ''}`} />
+          <span className="hidden sm:inline">{t('nav.cart')}</span>
+          <span aria-hidden="true" className="grid h-7 min-w-[1.75rem] place-items-center rounded-full bg-surface-deep px-1.5 text-sm font-bold tabular-nums text-ink-on-deep">
+            {count}
+          </span>
+          <span className="sr-only">{plural('nav.cart.count', count)}</span>
+        </button>
+
+        <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
+          <Dialog.Trigger className="icon-btn hover:bg-surface-deep-raised md:hidden" aria-label={t('nav.menu')}>
+            <Menu aria-hidden="true" className="h-6 w-6" />
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="overlay fixed inset-0 z-40 bg-[color:var(--scrim)]" />
+            <Dialog.Content className="sheet fixed inset-x-0 bottom-0 z-50 rounded-t-[1.75rem] bg-surface px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5">
+              <div className="flex items-center justify-between">
+                <Dialog.Title className="font-display text-2xl text-heading">{t('nav.menu')}</Dialog.Title>
+                <Dialog.Description className="sr-only">{t('nav.primary')}</Dialog.Description>
+                <Dialog.Close className="icon-btn -mr-2 text-heading hover:bg-surface-quiet" aria-label={t('nav.close')}>
+                  <X aria-hidden="true" className="h-6 w-6" />
+                </Dialog.Close>
+              </div>
+              <nav aria-label={t('nav.primary')} className="mt-3">
+                <ul className="flex flex-col">
+                  {NAV.map(({ href, key }) => (
+                    <li key={href}>
+                      <Link href={href} aria-current={isActive(href) ? 'page' : undefined} className="flex min-h-[3.25rem] items-baseline gap-2 font-display text-2xl text-heading">
+                        {t(key)}
+                        <span aria-hidden="true" className="leader" />
+                        {isActive(href) && <span aria-hidden="true" className="h-3 w-3 self-center rounded-full bg-[color:var(--accent)]" />}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
     </header>
   );
