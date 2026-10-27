@@ -25,7 +25,7 @@ export function HeroLabel({ children, className = '' }: { children: ReactNode; c
     />
   );
   return (
-    <div className={`jar-label relative px-6 py-10 text-center text-ink max-sm:rounded-[2.5rem] sm:px-14 sm:py-16 ${className}`}>
+    <div className={`jar-label relative px-5 pb-12 pt-10 text-center text-ink max-sm:rounded-[2.5rem] sm:px-14 sm:pb-20 sm:pt-16 ${className}`}>
       <div ref={box} aria-hidden="true" className="pointer-events-none absolute inset-[10px]">
         {width > 0 && (
           <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="absolute inset-0 overflow-visible">
