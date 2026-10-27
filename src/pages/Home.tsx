@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <>
       <section className="on-deep bg-surface-deep text-ink-on-deep">
-        <div className="page grid items-center gap-10 pb-16 pt-6 md:grid-cols-12 md:pb-20 md:pt-10">
+        <div className="page grid items-center gap-x-8 gap-y-10 pb-16 pt-6 md:grid-cols-12 md:pb-20 md:pt-10">
           <div className={home.hero.image ? 'md:col-span-7' : 'md:col-span-10 md:col-start-2'}>
             {cms.isLoading ? (
               <div aria-hidden="true" className="skeleton-deep h-[26rem] rounded-[50%/34%]" />
@@ -39,14 +39,15 @@ export default function Home() {
                 {home.hero.badge && <p className="font-bold text-accent-text">{home.hero.badge}</p>}
                 {home.hero.title && <h1 className="mt-3 text-[clamp(2.3rem,5.5vw,4.25rem)] text-heading">{home.hero.title}</h1>}
                 {home.hero.subtitle && <p className="mx-auto mt-5 max-w-[34rem] text-lg text-ink-soft">{home.hero.subtitle}</p>}
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                {/* Stacked on phones and kept near the centre on the oval, so buttons never reach the label's curved edge. */}
+                <div className="mt-8 flex flex-col gap-3 sm:mx-auto sm:max-w-[78%] sm:flex-row sm:flex-wrap sm:justify-center">
                   {home.hero.ctaPrimary && (
-                    <Link href="/products" className="btn btn-accent">
+                    <Link href="/products" className="btn btn-accent w-full text-center sm:w-auto">
                       {home.hero.ctaPrimary}
                     </Link>
                   )}
                   {home.hero.ctaSecondary && (
-                    <Link href="/contact" className="btn btn-strong">
+                    <Link href="/contact" className="btn btn-strong w-full text-center sm:w-auto">
                       {home.hero.ctaSecondary}
                     </Link>
                   )}
