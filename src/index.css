@@ -228,13 +228,14 @@
 /* The hero label's double border draws once. */
 .label-draw {
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: label-draw 1.6s var(--ease-out) 0.2s forwards;
+  stroke-dashoffset: 0;
+  animation: label-draw 1.6s var(--ease-out) 0.2s backwards;
 }
 
+/* Drawn is the resting state, so the border shows even where animation never runs. */
 @keyframes label-draw {
-  to {
-    stroke-dashoffset: 0;
+  from {
+    stroke-dashoffset: 1;
   }
 }
 
