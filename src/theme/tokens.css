@@ -1,0 +1,66 @@
+/*
+ * Gourmet Foods design tokens — three layers (see DESIGN.md).
+ * 1 primitives → 2 semantic roles → 3 component tokens.
+ * `--brand*` and `--font-display` are set at run time from the store's branding.
+ */
+:root {
+  /* 1 · Primitives — Despensa */
+  --gf-aubergine: #3A1F3B;
+  --gf-aubergine-lift: #4D2C4E;
+  --gf-shelf: #6B4A6C;
+  --gf-saffron: #E2A21B;
+  --gf-saffron-text: #8A5A00;
+  --gf-basil: #4E7A3A;
+  --gf-basil-text: #3F6630;
+  --gf-tomato: #C63B24;
+  --gf-label: #FFFDF8;
+  --gf-wall: #F4EFF3;
+  --gf-wall-quiet: #EAE2E9;
+  --gf-ink: #2A1A2B;
+  --gf-ink-soft: #665566;
+  --gf-lilac: #D8C8D9;
+
+  /* 2 · Semantic */
+  --surface: var(--gf-wall);
+  --surface-quiet: var(--gf-wall-quiet);
+  --surface-raised: var(--gf-label);
+  --surface-deep: var(--gf-aubergine);
+  --surface-deep-raised: var(--gf-aubergine-lift);
+  --ink: var(--gf-ink);
+  --ink-soft: var(--gf-ink-soft);
+  --ink-on-deep: var(--gf-label);
+  --ink-on-deep-soft: var(--gf-lilac);
+  --heading: var(--gf-aubergine);
+  --rule: color-mix(in srgb, var(--gf-aubergine) 16%, transparent);
+  --rule-on-deep: color-mix(in srgb, var(--gf-label) 20%, transparent);
+  --accent: var(--brand, var(--gf-saffron));
+  --accent-ink: var(--brand-ink, var(--gf-aubergine));
+  --accent-text: var(--brand-text, var(--gf-saffron-text));
+  --accent-2: var(--brand-2, var(--gf-aubergine));
+  --accent-2-ink: var(--brand-2-ink, var(--gf-label));
+  --offer: var(--gf-tomato);
+  --danger: var(--gf-tomato);
+  --success: var(--gf-basil-text);
+  --focus: var(--gf-aubergine);
+  --focus-on-deep: var(--gf-saffron);
+  --scrim: rgb(42 26 43 / 0.6);
+
+  /* 3 · Component */
+  --font-display: "Zilla Slab", "Noto Serif", Georgia, serif;
+  --font-text: "Manrope", "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-frame: 1.75rem;
+  --radius-frame-sm: 1rem;
+  --radius-pill: 999px;
+  --seal: var(--accent);
+  --seal-ink: var(--accent-ink);
+  --shelf-gap: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(42 26 43 / 0.1), 0 14px 30px -18px rgb(42 26 43 / 0.45);
+  --shadow-lift: 0 2px 4px rgb(42 26 43 / 0.12), 0 26px 44px -22px rgb(42 26 43 / 0.55);
+  --tap: 2.75rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 76rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --dur-enter: 260ms;
+  --dur-exit: 170ms;
+}

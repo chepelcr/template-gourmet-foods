@@ -1,179 +1,41 @@
 import { Link } from 'wouter';
-import { Facebook, Instagram, Twitter, Mail, MessageCircle, MapPin, ChefHat } from 'lucide-react';
-import { formatPhone, whatsappPhone, whatsappUrl } from '@chepelcr/tsuru-storefront-sdk';
-import { useContact, useTheme } from '@/hooks/useContent';
-import { useSubdomainContext } from '@/contexts/SubdomainContext';
+import { useIsDemo, useStore } from '@/core';
+import { useI18n } from '@/i18n';
+import { ContactDetails } from './ContactDetails';
+import { NAV } from './Header';
 
-export default function Footer() {
-  const { organization } = useSubdomainContext();
-  const { data: theme } = useTheme();
-  const { data: contact } = useContact();
-  const storeWhatsapp = whatsappPhone(contact);
+export function Footer() {
+  const { organization } = useStore();
+  const isDemo = useIsDemo();
+  const { t } = useI18n();
   return (
-    <footer className="bg-stone-900 text-stone-300">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              
-              {theme?.logoUrl ? (
-                <img src={theme.logoUrl} alt="Logo" className="w-7 h-7" />
-              ) : (
-                <ChefHat className="w-7 h-7 text-gourmet-gold" />
-              )}
-              <h3 className="text-xl font-serif font-bold text-white">{organization?.name}</h3>
-            </div>
-            <p className="text-sm text-stone-400 mb-4">
-              Premium specialty foods and artisanal products, curated for discerning palates.
-            </p>
-            <div className="flex gap-3">
-              {contact?.facebookUrl && (
-                <a href={contact.facebookUrl} target="_blank" rel="noopener noreferrer"
-                className="p-2 bg-stone-800 hover:bg-gourmet-red rounded-lg transition-colors"
-                aria-label="Facebook"
-              >
-                  <Facebook className="w-5 h-5" />
-                </a>
-              )}
-              {contact?.instagramUrl && (
-                <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer"
-                className="p-2 bg-stone-800 hover:bg-gourmet-red rounded-lg transition-colors"
-                aria-label="Instagram"
-              >
-                  <Instagram className="w-5 h-5" />
-                </a>
-              )}
-              {contact?.twitterUrl && (
-                <a href={contact.twitterUrl} target="_blank" rel="noopener noreferrer"
-                className="p-2 bg-stone-800 hover:bg-gourmet-red rounded-lg transition-colors"
-                aria-label="Twitter"
-              >
-                  <Twitter className="w-5 h-5" />
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Shop */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Shop</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/products">
-                  <a className="hover:text-gourmet-gold transition-colors">All Products</a>
+    <footer className="on-deep mt-24 bg-surface-deep text-ink-on-deep">
+      <div className="page grid gap-10 py-12 md:grid-cols-12 md:py-16">
+        <div className="md:col-span-4">
+          <p className="font-display text-3xl font-bold">{organization?.name}</p>
+          {!isDemo && organization?.description && <p className="mt-3 max-w-sm text-ink-on-deep-soft">{organization.description}</p>}
+          {isDemo && <p className="mt-3 max-w-sm text-sm text-ink-on-deep-soft">{t('demo.notice')}</p>}
+        </div>
+        <nav aria-label={t('footer.navigation')} className="md:col-span-3">
+          <ul className="grid grid-cols-2 gap-1 md:grid-cols-1">
+            {NAV.map(({ href, key }) => (
+              <li key={href}>
+                <Link href={href} className="inline-flex min-h-tap items-center font-bold hover:text-[color:var(--gf-saffron)]">
+                  {t(key)}
                 </Link>
               </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Artisan Cheese
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Charcuterie
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Specialty Oils
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Gourmet Coffee
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-green transition-colors">
-                  Organic Selection
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Customer Service */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Customer Service</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Acerca de Nosotros
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Shipping Info
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Returns & Exchanges
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gourmet-gold transition-colors">
-                  Política de Privacidad
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Get in Touch</h4>
-            <ul className="space-y-3 text-sm">
-              {contact?.address && (
-                <li className="flex items-start gap-2">
-                  <MapPin className="w-5 h-5 text-gourmet-gold flex-shrink-0 mt-0.5" />
-                  <span>{contact.address}</span>
-                </li>
-              )}
-              {storeWhatsapp && (
-                <li className="flex items-center gap-2">
-                  <MessageCircle className="w-5 h-5 text-gourmet-gold flex-shrink-0" />
-                  <a href={whatsappUrl(storeWhatsapp)} target="_blank" rel="noopener noreferrer" className="hover:text-gourmet-gold transition-colors">
-                    {formatPhone(storeWhatsapp)}
-                  </a>
-                </li>
-              )}
-              {contact?.email && (
-                <li className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-gourmet-gold flex-shrink-0" />
-                  <a href={`mailto:${contact.email}`} className="hover:text-gourmet-gold transition-colors">
-                    {contact.email}
-                  </a>
-                </li>
-              )}
-            </ul>
-          </div>
+            ))}
+          </ul>
+        </nav>
+        <div className="md:col-span-5">
+          <ContactDetails tone="deep" compact />
         </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-stone-400">
-          <p>&copy; {new Date().getFullYear()} {organization?.name}. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-gourmet-gold transition-colors">
-              Terms of Service
-            </a>
-            <a href="#" className="hover:text-gourmet-gold transition-colors">
-              Política de Privacidad
-            </a>
-            <a href="#" className="hover:text-gourmet-gold transition-colors">
-              Cookie Policy
-            </a>
-          </div>
-        </div>
+      </div>
+      <div className="page flex flex-wrap justify-between gap-2 border-t border-rule-deep py-5 text-sm text-ink-on-deep-soft">
+        <span>
+          © {new Date().getFullYear()} {organization?.name}
+        </span>
+        <span>{t('footer.madeWith')}</span>
       </div>
     </footer>
   );
