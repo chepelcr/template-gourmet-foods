@@ -38,6 +38,7 @@
   --accent-text: var(--brand-text, var(--gf-saffron-text));
   --accent-2: var(--brand-2, var(--gf-aubergine));
   --accent-2-ink: var(--brand-2-ink, var(--gf-label));
+  --offer-ink: #FFFFFF;
   --offer: var(--gf-tomato);
   --danger: var(--gf-tomato);
   --success: var(--gf-basil-text);
@@ -63,4 +64,25 @@
   --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
   --dur-enter: 260ms;
   --dur-exit: 170ms;
+}
+
+/* Night pantry: keep the illustrated jars and the store's category colours. */
+:root[data-color-scheme='dark'] {
+  --surface: #201922;
+  --surface-quiet: #2A202D;
+  --surface-raised: #322738;
+  --surface-deep: #29152E;
+  --surface-deep-raised: #3F2546;
+  --ink: #F5EDF4;
+  --ink-soft: #C9B8CA;
+  --heading: #F7E9F6;
+  --rule: rgb(245 237 244 / 0.22);
+  --offer: #FFAA92;
+  --offer-ink: #2A1A2B;
+  --danger: #FFAA92;
+  --success: #A7D08E;
+  --focus: #E2A21B;
+  --scrim: rgb(12 7 14 / 0.78);
+  --shadow-soft: 0 1px 3px rgb(0 0 0 / 0.3), 0 14px 30px -18px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 2px 5px rgb(0 0 0 / 0.4), 0 26px 44px -22px rgb(0 0 0 / 0.8);
 }

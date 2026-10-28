@@ -14,7 +14,7 @@ export function JarCard({ item, category, sizes = '(min-width: 1024px) 17rem, (m
   const [stamp, setStamp] = useState(0);
   const Heading = headingLevel;
   return (
-    <article className="group relative flex h-full flex-col">
+    <article className="group relative flex h-full flex-col rounded-[2rem] has-[a:focus-visible]:outline has-[a:focus-visible]:outline-[3px] has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-[color:var(--focus)] [.on-deep_&]:has-[a:focus-visible]:outline-[color:var(--focus-on-deep)]">
       <div className={`relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-surface-quiet shadow-soft ${isPurchasable(item) ? '' : 'grayscale-[0.7]'}`}>
         <StoreImage src={item.imageUrl} alt="" sizes={sizes} maxWidth={720} fallback={<Placeholder />} />
         {item.kind === 'service' && (

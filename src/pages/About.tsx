@@ -65,10 +65,12 @@ export default function About() {
             <ul className="grid gap-8 md:grid-cols-3">
               {about.values.items.map((value) => (
                 <li key={value.title} className="flex flex-col gap-3">
-                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--accent-ink)] shadow-[0_0_0_4px_var(--surface),0_0_0_5.5px_var(--accent)]">
-                    <CmsIcon icon={value.icon} className="h-6 w-6" strokeWidth={1.9} />
-                  </span>
-                  <h3 className="text-xl text-heading">{value.title}</h3>
+                  <div className="flex items-center gap-4">
+                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--accent-ink)] shadow-[0_0_0_4px_var(--surface),0_0_0_5.5px_var(--accent)]">
+                      <CmsIcon icon={value.icon} className="h-6 w-6" strokeWidth={1.9} />
+                    </span>
+                    <h3 className="min-w-0 text-xl text-heading">{value.title}</h3>
+                  </div>
                   {value.description && <p className="text-ink-soft">{value.description}</p>}
                 </li>
               ))}

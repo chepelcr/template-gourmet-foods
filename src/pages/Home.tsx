@@ -162,14 +162,14 @@ export default function Home() {
         <section className="page pt-20">
           <ul className="grid gap-8 md:grid-cols-3">
             {home.benefits.map((benefit) => (
-              <li key={benefit.title} className="flex gap-4">
-                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--accent-ink)] shadow-[0_0_0_4px_var(--surface),0_0_0_5.5px_var(--accent)]">
-                  <CmsIcon icon={benefit.icon} className="h-6 w-6" strokeWidth={1.9} />
-                </span>
-                <div>
-                  <h3 className="text-xl text-heading">{benefit.title}</h3>
-                  {benefit.description && <p className="mt-1 text-ink-soft">{benefit.description}</p>}
+              <li key={benefit.title} className="flex flex-col gap-3">
+                <div className="flex items-center gap-4">
+                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[color:var(--accent)] text-[color:var(--accent-ink)] shadow-[0_0_0_4px_var(--surface),0_0_0_5.5px_var(--accent)]">
+                    <CmsIcon icon={benefit.icon} className="h-6 w-6" strokeWidth={1.9} />
+                  </span>
+                  <h3 className="min-w-0 text-xl text-heading">{benefit.title}</h3>
                 </div>
+                {benefit.description && <p className="text-ink-soft">{benefit.description}</p>}
               </li>
             ))}
           </ul>
